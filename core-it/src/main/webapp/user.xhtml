@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core">
+
+  <head>
+    <title>Xpense</title>
+  </head>
+
+  <body>
+    <h:form>
+      <h:panelGrid columns="2">
+
+        <h:outputLabel value="Email" for="email"/>
+        <h:panelGroup>
+          <h:inputText id="email" value="#{userHandler.user.email}"/>
+          <h:message for="email"/>
+        </h:panelGroup>
+
+        <h:outputLabel value="Password" for="password"/>
+        <h:panelGroup>
+          <h:inputSecret id="password" value="#{userHandler.user.password}"/>
+          <h:message for="password"/>
+        </h:panelGroup>
+
+        <h:outputLabel value="First name" for="firstName"/>
+        <h:panelGroup>
+          <h:inputText id="firstName"  value="#{userHandler.user.firstName}"/>
+          <h:message for="firstName"/>
+        </h:panelGroup>
+
+        <h:outputLabel value="Last name" for="lastName"/>
+        <h:panelGroup>
+          <h:inputText id="lastName" value="#{userHandler.user.lastName}"/>
+          <h:message for="lastName"/>
+        </h:panelGroup>
+
+        <h:outputLabel value="&nbsp;"/>
+        <h:commandButton value="Save" action="#{userHandler.save}"/>
+
+      </h:panelGrid>
+    </h:form>
+  </body>
+
+</html>

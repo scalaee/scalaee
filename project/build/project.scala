@@ -1,30 +1,32 @@
+import org.scalaee.sbtjeeplugin.WebProfileJEEProject
 import sbt._
 
 class ScalaEEProject(info: ProjectInfo) extends ParentProject(info) with UnpublishedProject {
 
   // ===================================================================================================================
-  // Dependencies
+  // Repositories
   // ===================================================================================================================
 
-  object Dependencies {
-    
-    // Module configurations
-    val javaNetRepo = "java.net repo" at "http://download.java.net/maven/2"
-    val glassfishModuleConfig = ModuleConfiguration("org.glassfish.web", javaNetRepo)
+  val javaNetRepo = "java.net repo" at "http://download.java.net/maven/2"
 
-    // Dependencies (compile)
-    val scalaz = "com.googlecode.scalaz" %% "scalaz-core" % "5.0" withSources
-    val slf4s = "com.weiglewilczek.slf4s" %% "slf4s" % "1.0.2" withSources
+  // ===================================================================================================================
+  // Dependencies for subprojects: Intentionally defs!
+  // ===================================================================================================================
 
-    // Dependencies (provided)
-    val javaeeWebApi = "javax" % "javaee-web-api" % "6.0" % "provided"
+  // Dependencies (compile)
+  def scalaz = "com.googlecode.scalaz" %% "scalaz-core" % "5.0" withSources
+  def slf4s = "com.weiglewilczek.slf4s" %% "slf4s" % "1.0.2" withSources
 
-    // Dependencies (test)
-    val glassfishELImpl = "org.glassfish.web" % "el-impl" % "2.2" % "test" // Needed because of crippled javaee-(web-)api!
-    val mockito = "org.mockito" % "mockito-all" % "1.8.4" % "test"
-    val slf4jSimple = "org.slf4j" % "slf4j-simple" % "1.6.1" % "test" intransitive
-    val specs = "org.scala-tools.testing" %% "specs" % "1.6.5" % "test" withSources
-  }
+  // Dependencies (provided)
+  def javaeeWebApi = "javax" % "javaee-web-api" % "6.0" % "provided"
+
+  // Dependencies (test)
+  def glassfishELImpl = "org.glassfish.web" % "el-impl" % "2.2" % "test" // Needed because of crippled javaee-(web-)api!
+  def mockito = "org.mockito" % "mockito-all" % "1.8.4" % "test"
+  def specs = "org.scala-tools.testing" %% "specs" % "1.6.5" % "test" withSources
+
+  // Dependencies (varying scopes)
+  def slf4jLog4j(scope: String) = "org.slf4j" % "slf4j-log4j12" % "1.6.1" % scope
 
   // ===================================================================================================================
   // Publishing
@@ -44,10 +46,9 @@ class ScalaEEProject(info: ProjectInfo) extends ParentProject(info) with Unpubli
   val coreProject = project("core", "scalaee-core", new CoreProject(_))
 
   class CoreProject(info: ProjectInfo) extends DefaultProject(info) {
-    import Artifact._
-    import Dependencies._
 
-    override def libraryDependencies = Set(scalaz, slf4s, javaeeWebApi, specs, mockito, glassfishELImpl, slf4jSimple)
+    override def libraryDependencies =
+      Set(scalaz, slf4s, javaeeWebApi, specs, mockito, glassfishELImpl, slf4jLog4j("test"))
     override def defaultExcludes = super.defaultExcludes || "*-sources.jar"
 
     override def packageSrcJar = defaultJarPath("-sources.jar")
@@ -63,7 +64,18 @@ class ScalaEEProject(info: ProjectInfo) extends ParentProject(info) with Unpubli
 
   val coreITProject = project("core-it", "scalaee-core-it", new CoreITProject(_))
 
-  class CoreITProject(info: ProjectInfo) extends DefaultWebProject(info) with UnpublishedProject {
+  class CoreITProject(info: ProjectInfo) extends DefaultWebProject(info) with UnpublishedProject with WebProfileJEEProject {
+    import sbt.Path._
+
+    def coreLib = "org.scalaee" %% "scalaee-core" % projectVersion.value.toString
+    override def libraryDependencies = Set(coreLib, slf4jLog4j("compile"), javaeeWebApi)
+
+    override def prepareWebappAction = super.prepareWebappAction dependsOn(coreProject.publishLocal)
+
+    override def webappClasspath = super.webappClasspath +++ buildLibraryJar
+
+    override protected def glassfishAsadmin =
+      "%s/tools/glassfish/glassfishv3/glassfish/bin/asadmin" format userHome
   }
 }
 
