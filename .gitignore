@@ -31,3 +31,7 @@ out
 
 # Pax Runner
 runner
+
+# This project
+scalaee*.log
+
