@@ -62,20 +62,13 @@ class ScalaEEProject(info: ProjectInfo) extends ParentProject(info) with Unpubli
   // scalaee-core-it subproject
   // ===================================================================================================================
 
-  val coreITProject = project("core-it", "scalaee-core-it", new CoreITProject(_))
+  val coreITProject = project("core-it", "scalaee-core-it", new CoreITProject(_), coreProject)
 
   class CoreITProject(info: ProjectInfo) extends DefaultWebProject(info) with UnpublishedProject with WebProfileJEEProject {
-    import sbt.Path._
 
-    def coreLib = "org.scalaee" %% "scalaee-core" % projectVersion.value.toString
-    override def libraryDependencies = Set(coreLib, slf4jLog4j("compile"), javaeeWebApi)
+    override def libraryDependencies = Set(slf4jLog4j("compile"), javaeeWebApi)
 
-    override def prepareWebappAction = super.prepareWebappAction dependsOn(coreProject.publishLocal)
-
-    override def webappClasspath = super.webappClasspath +++ buildLibraryJar
-
-    override protected def glassfishAsadmin =
-      "%s/tools/glassfish/glassfishv3/glassfish/bin/asadmin" format userHome
+    override protected def glassfishAsadmin = "%s/tools/glassfish/glassfishv3/glassfish/bin/asadmin" format Path.userHome
   }
 }
 
