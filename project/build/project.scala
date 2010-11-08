@@ -68,7 +68,6 @@ class ScalaEEProject(info: ProjectInfo) extends ParentProject(info) with Unpubli
 
     override def libraryDependencies = Set(slf4jLog4j("compile"), javaeeWebApi)
 
-    override protected def glassfishAsadmin = "%s/tools/glassfish/glassfishv3/glassfish/bin/asadmin" format Path.userHome
   }
 }
 
