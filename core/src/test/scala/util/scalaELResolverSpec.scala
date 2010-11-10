@@ -31,22 +31,22 @@ class ScalaELResolverSpec extends Specification with Mockito {
       there was no(context).setPropertyResolved(anyBoolean)
     }
 
-    """leave ELContext.propertyResolved alone when called with a base of type Child and a property "pf" """ in {
-      skip("Scala compiler magic: protected Scala members will result in public Java members (see javap Child)!")
-      resolver.getValue(context, child, "pf")
-      there was no(context).setPropertyResolved(anyBoolean)
-    }
-
+//    """leave ELContext.propertyResolved alone when called with a base of type Child and a property "pf" """ in {
+//      skip("Scala compiler magic: protected Scala members will result in public Java members (see javap Child)!")
+//      resolver.getValue(context, child, "pf")
+//      there was no(context).setPropertyResolved(anyBoolean)
+//    }
+//
     """leave ELContext.propertyResolved alone when called with a base of type Child and a property "pm" """ in {
       resolver.getValue(context, child, "pm")
       there was no(context).setPropertyResolved(anyBoolean)
     }
 
-    """leave ELContext.propertyResolved alone when called with a base of type Child and a property "pf2" """ in {
-      skip("Scala compiler magic: protected Scala members will result in public Java members (see javap Child)!")
-      resolver.getValue(context, child, "pf2")
-      there was no(context).setPropertyResolved(anyBoolean)
-    }
+//    """leave ELContext.propertyResolved alone when called with a base of type Child and a property "pf2" """ in {
+//      skip("Scala compiler magic: protected Scala members will result in public Java members (see javap Child)!")
+//      resolver.getValue(context, child, "pf2")
+//      there was no(context).setPropertyResolved(anyBoolean)
+//    }
 
     """leave ELContext.propertyResolved alone when called with a base of type Child and a property "pm2" """ in {
       resolver.getValue(context, child, "pm2")
@@ -58,11 +58,11 @@ class ScalaELResolverSpec extends Specification with Mockito {
       there was one(context).setPropertyResolved(true)
     }
 
-    """set ELContext.propertyResolved to true and return "Array(m)" when called with a base of type Child and a property "m" """ in {
-      skip("Not sure how to handle arrays!")
-//      resolver.getValue(context, child, "m").asInstanceOf[Array[String]] must haveTheSameElementsAs Array("m")
-//      there was one(context).setPropertyResolved(true)
-    }
+//    """set ELContext.propertyResolved to true and return "Array(m)" when called with a base of type Child and a property "m" """ in {
+//      skip("Not sure how to handle arrays!")
+////      resolver.getValue(context, child, "m").asInstanceOf[Array[String]] must haveTheSameElementsAs Array("m")
+////      there was one(context).setPropertyResolved(true)
+//    }
 
     """set ELContext.propertyResolved to true and return "f2" when called with a base of type Child and a property "f2" """ in {
       resolver.getValue(context, child, "f2") mustEqual "f2"
@@ -101,22 +101,22 @@ class ScalaELResolverSpec extends Specification with Mockito {
       there was no(context).setPropertyResolved(anyBoolean)
     }
 
-    """leave ELContext.propertyResolved alone when called with a base of type Child and a property "pf" """ in {
-      skip("Scala compiler magic: protected Scala members will result in public Java members (see javap Child)!")
-      resolver.getType(context, child, "pf")
-      there was no(context).setPropertyResolved(anyBoolean)
-    }
+//    """leave ELContext.propertyResolved alone when called with a base of type Child and a property "pf" """ in {
+//      skip("Scala compiler magic: protected Scala members will result in public Java members (see javap Child)!")
+//      resolver.getType(context, child, "pf")
+//      there was no(context).setPropertyResolved(anyBoolean)
+//    }
 
     """leave ELContext.propertyResolved alone when called with a base of type Child and a property "pm" """ in {
       resolver.getType(context, child, "pm")
       there was no(context).setPropertyResolved(anyBoolean)
     }
 
-    """leave ELContext.propertyResolved alone when called with a base of type Child and a property "pf2" """ in {
-      skip("Scala compiler magic: protected Scala members will result in public Java members (see javap Child)!")
-      resolver.getType(context, child, "pf2")
-      there was no(context).setPropertyResolved(anyBoolean)
-    }
+//    """leave ELContext.propertyResolved alone when called with a base of type Child and a property "pf2" """ in {
+//      skip("Scala compiler magic: protected Scala members will result in public Java members (see javap Child)!")
+//      resolver.getType(context, child, "pf2")
+//      there was no(context).setPropertyResolved(anyBoolean)
+//    }
 
     """leave ELContext.propertyResolved alone when called with a base of type Child and a property "pm2" """ in {
       resolver.getType(context, child, "pm2")
@@ -128,11 +128,11 @@ class ScalaELResolverSpec extends Specification with Mockito {
       there was one(context).setPropertyResolved(true)
     }
 
-    """set ELContext.propertyResolved to true and return "Class[Array[String]]" when called with a base of type Child and a property "m" """ in {
-      skip("Not sure how to handle arrays!")
-//      resolver.getValue(context, child, "m").asInstanceOf[Array[String]] must haveTheSameElementsAs Array("m")
-//      there was one(context).setPropertyResolved(true)
-    }
+//    """set ELContext.propertyResolved to true and return "Class[Array[String]]" when called with a base of type Child and a property "m" """ in {
+//      skip("Not sure how to handle arrays!")
+////      resolver.getValue(context, child, "m").asInstanceOf[Array[String]] must haveTheSameElementsAs Array("m")
+////      there was one(context).setPropertyResolved(true)
+//    }
 
     """set ELContext.propertyResolved to true and return "Class[String]" when called with a base of type Child and a property "f2" """ in {
       resolver.getType(context, child, "f2").getName mustEqual classOf[String].getName
@@ -171,22 +171,22 @@ class ScalaELResolverSpec extends Specification with Mockito {
       there was no(context).setPropertyResolved(anyBoolean)
     }
 
-    """leave ELContext.propertyResolved alone when called with a base of type Child and a property "pf" """ in {
-      skip("Scala compiler magic: protected Scala members will result in public Java members (see javap Child)!")
-      resolver.setValue(context, child, "pf", "")
-      there was no(context).setPropertyResolved(anyBoolean)
-    }
+//    """leave ELContext.propertyResolved alone when called with a base of type Child and a property "pf" """ in {
+//      skip("Scala compiler magic: protected Scala members will result in public Java members (see javap Child)!")
+//      resolver.setValue(context, child, "pf", "")
+//      there was no(context).setPropertyResolved(anyBoolean)
+//    }
 
     """leave ELContext.propertyResolved alone when called with a base of type Child and a property "pm" """ in {
       resolver.setValue(context, child, "pm", "")
       there was no(context).setPropertyResolved(anyBoolean)
     }
 
-    """leave ELContext.propertyResolved alone when called with a base of type Child and a property "pf2" """ in {
-      skip("Scala compiler magic: protected Scala members will result in public Java members (see javap Child)!")
-      resolver.setValue(context, child, "pf2", "")
-      there was no(context).setPropertyResolved(anyBoolean)
-    }
+//    """leave ELContext.propertyResolved alone when called with a base of type Child and a property "pf2" """ in {
+//      skip("Scala compiler magic: protected Scala members will result in public Java members (see javap Child)!")
+//      resolver.setValue(context, child, "pf2", "")
+//      there was no(context).setPropertyResolved(anyBoolean)
+//    }
 
     """leave ELContext.propertyResolved alone when called with a base of type Child and a property "pm2" """ in {
       resolver.setValue(context, child, "pm2", "")

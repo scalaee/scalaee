@@ -22,8 +22,8 @@ class ScalaEEProject(info: ProjectInfo) extends ParentProject(info) with Unpubli
 
   // Dependencies (test)
   def glassfishELImpl = "org.glassfish.web" % "el-impl" % "2.2" % "test" // Needed because of crippled javaee-(web-)api!
-  def mockito = "org.mockito" % "mockito-all" % "1.8.4" % "test"
-  def specs = "org.scala-tools.testing" %% "specs" % "1.6.5" % "test" withSources
+  def mockito = "org.mockito" % "mockito-all" % "1.8.5" % "test"
+  def specs = "org.scala-tools.testing" %% "specs" % "1.6.6" % "test" withSources
 
   // Dependencies (varying scopes)
   def slf4jLog4j(scope: String) = "org.slf4j" % "slf4j-log4j12" % "1.6.1" % scope
@@ -48,7 +48,7 @@ class ScalaEEProject(info: ProjectInfo) extends ParentProject(info) with Unpubli
   class CoreProject(info: ProjectInfo) extends DefaultProject(info) {
 
     override def libraryDependencies =
-      Set(scalaz, slf4s, javaeeWebApi, specs, mockito, glassfishELImpl, slf4jLog4j("test"))
+      Set(/*scalaz, */slf4s, javaeeWebApi, specs, mockito, glassfishELImpl, slf4jLog4j("test"))
     override def defaultExcludes = super.defaultExcludes || "*-sources.jar"
 
     override def packageSrcJar = defaultJarPath("-sources.jar")
