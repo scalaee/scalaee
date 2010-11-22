@@ -10,17 +10,18 @@ package handler
 
 import model._
 
-import com.weiglewilczek.slf4s.Logging
-import javax.faces.bean.{ ManagedBean, SessionScoped }
+import javax.enterprise.context.SessionScoped
+import javax.inject.Named
 
-@ManagedBean
+@Named
 @SessionScoped
-class UserHandler extends Logging {
+@serializable
+class UserHandler {
 
   var user = new User with NamedUser
 
   def save: String = {
-    logger.debug("""Trying to save user with email "%s".""" format user.email)
+    //logger.debug("""Trying to save user with email "%s".""" format user.email)
     "/index"
   }
 }
