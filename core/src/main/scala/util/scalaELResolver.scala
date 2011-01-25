@@ -54,29 +54,48 @@ private class ScalaELResolverWebListener extends ServletContextListener with Log
  * Therefore it is necessary to adapt to JavaBean style by means of this special resolver.
  */
 private[util] class ScalaELResolver extends ELResolver with Logging {
-  // TODO Must apply only to instances of ScalaObject!
 
-  def getType(context: ELContext, base: AnyRef, property: AnyRef): Class[_] =
-    applyToProperty(context, base, property.asInstanceOf[String], _.getReturnType)
-
-  def getValue(context: ELContext, base: AnyRef, property: AnyRef): AnyRef =
-    applyToProperty(context, base, property.asInstanceOf[String], _ invoke base)
-
-  def setValue(context: ELContext, base: AnyRef, property: AnyRef, value: AnyRef) {
-    if (base != null) {
-      val name = property.asInstanceOf[String] + "_$eq"
-      try {
-        base.getClass.getMethod(name, value.getClass).invoke(base, value)
-        context.setPropertyResolved(true)
-        logger.debug("""Successfully resolved property "%s" for base class "%s".""".format(name, base.getClass))
-      } catch {
-        case e: NoSuchMethodException => {
-          logger.debug("""Could not resolve property "%s" for base class "%s".""".format(name, base.getClass))
-          null
+  private def applyToProperty[A >: Null](
+      context: ELContext,
+      base: AnyRef,
+      methodName: String,
+      methodArgument: Option[Class[_]],
+      callback: Method => A): A = {
+    base match {
+      case so: ScalaObject => {
+        try {
+          val method = methodArgument match {
+            case Some(v) => so.getClass.getMethod(methodName, v)
+            case None => so.getClass.getMethod(methodName)
+          }
+          val result = callback(method)
+          context.setPropertyResolved(true)
+          logger.debug("""Successfully resolved "%s" for base class "%s".""".format(methodName, base.getClass))
+          result
+        } catch {
+          case e: NoSuchMethodException => {
+            logger.debug("""Could not resolve "%s" for base class "%s".""".format(methodName, base.getClass))
+            null
+          }
         }
       }
+      case _ => null
     }
-    else logger.debug("""Cannot resolve properties for a null base.""")
+  }
+
+  def getType(context: ELContext, base: AnyRef, property: AnyRef): Class[_] = {
+    val name = property.asInstanceOf[String]
+    applyToProperty(context, base, name, None, _.getReturnType)
+  }
+
+  def getValue(context: ELContext, base: AnyRef, property: AnyRef): AnyRef = {
+    val name = property.asInstanceOf[String]
+    applyToProperty(context, base, name, None, _ invoke base)
+  }
+
+  def setValue(context: ELContext, base: AnyRef, property: AnyRef, value: AnyRef) {
+    val name = property.asInstanceOf[String] + "_$eq"
+    applyToProperty(context, base, name, Some(value.getClass), _.invoke(base, value))
   }
 
   def getCommonPropertyType(context: ELContext, base: AnyRef): Class[_] =
@@ -89,27 +108,5 @@ private[util] class ScalaELResolver extends ELResolver with Logging {
     throw new UnsupportedOperationException("This method is hopefully irrelevant for the ScalaELResolver.")
   }
 
-  private def applyToProperty[A >: Null](
-      context: ELContext,
-      base: AnyRef,
-      name: => String,
-      f: Method => A): A = {
-    if (base != null) {
-      try {
-        val a = f(base.getClass getMethod name)
-        context.setPropertyResolved(true)
-        logger.debug("""Successfully resolved property "%s" for base class "%s".""".format(name, base.getClass))
-        a
-      } catch {
-        case e: NoSuchMethodException => {
-          logger.debug("""Could not resolve property "%s" for base class "%s".""".format(name, base.getClass))
-          null
-        }
-      }
-    }
-    else {
-      logger.debug("""Cannot resolve properties for a null base.""")
-      null
-    }
-  }
+
 }
