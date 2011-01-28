@@ -12,6 +12,8 @@ class ScalaEEProject(info: ProjectInfo) extends ParentProject(info) with Unpubli
 
   val javaNetRepo = "java.net repo" at "http://download.java.net/maven/2"
 
+  val jbossCommunityRepo = "JBoss Community Repo" at "http://repository.jboss.org/nexus/content/groups/public-jboss/"
+
   // ===================================================================================================================
   // Dependencies for subprojects: Intentionally defs!
   // ===================================================================================================================
@@ -19,6 +21,7 @@ class ScalaEEProject(info: ProjectInfo) extends ParentProject(info) with Unpubli
   // Dependencies (compile)
   def scalaz = "com.googlecode.scalaz" %% "scalaz-core" % "5.0" withSources
   def slf4s = "com.weiglewilczek.slf4s" %% "slf4s" % "1.0.2" withSources
+  def seamSolder = "org.jboss.seam.solder" % "seam-solder" % "3.0.0.Beta2" withSources
 
   // Dependencies (provided)
   def javaeeWebApi = "javax" % "javaee-web-api" % "6.0" % "provided"
@@ -52,7 +55,7 @@ class ScalaEEProject(info: ProjectInfo) extends ParentProject(info) with Unpubli
 
     override def libraryDependencies =
       Set(/*scalaz, */
-        slf4s, javaeeWebApi, specs, mockito, glassfishELImpl, slf4jLog4j("test"))
+        slf4s, javaeeWebApi, seamSolder, specs, mockito, glassfishELImpl, slf4jLog4j("test"))
     override def defaultExcludes = super.defaultExcludes || "*-sources.jar"
 
     override def packageSrcJar = defaultJarPath("-sources.jar")
