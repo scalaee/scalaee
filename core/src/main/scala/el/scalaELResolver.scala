@@ -19,6 +19,7 @@ import javax.faces.application.ApplicationFactory
 import javax.servlet.annotation.WebListener
 import javax.servlet.{ ServletContextEvent, ServletContextListener }
 
+
 /**
  * Adds a {@link ScalaELResolver} to the JSF application.
  */

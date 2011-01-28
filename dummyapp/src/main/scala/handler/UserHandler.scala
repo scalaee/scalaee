@@ -11,17 +11,27 @@ package handler
 
 import model._
 
-import javax.enterprise.context.SessionScoped
 import javax.inject.Named
+import com.weiglewilczek.slf4s.Logger
+import javax.enterprise.context.SessionScoped
+
+
+trait MyLogging {
+  //private val loggerXXX = Logger(this.getClass)
+}
+
 
 @Named
 @SessionScoped
 @serializable
-class UserHandler {
+class UserHandler extends MyLogging {
+
+  private val logger = Logger(this.getClass)
 
   var user = new User
 
   def save: String = {
+    logger.debug("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
     //logger.debug("""Trying to save user with email "%s".""" format user.email)
     "/index"
   }
