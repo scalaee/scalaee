@@ -1,5 +1,8 @@
-import org.scalaee.sbtjeeplugin.WebProfileJEEProject
+
 import sbt._
+import org.scalaee.sbtjeeplugin.WebProfileJEEProject
+import collection.immutable.Set // only to avoid a wrong warning by IDEA
+
 
 class ScalaEEProject(info: ProjectInfo) extends ParentProject(info) with UnpublishedProject {
 
@@ -48,7 +51,8 @@ class ScalaEEProject(info: ProjectInfo) extends ParentProject(info) with Unpubli
   class CoreProject(info: ProjectInfo) extends DefaultProject(info) {
 
     override def libraryDependencies =
-      Set(/*scalaz, */slf4s, javaeeWebApi, specs, mockito, glassfishELImpl, slf4jLog4j("test"))
+      Set(/*scalaz, */
+        slf4s, javaeeWebApi, specs, mockito, glassfishELImpl, slf4jLog4j("test"))
     override def defaultExcludes = super.defaultExcludes || "*-sources.jar"
 
     override def packageSrcJar = defaultJarPath("-sources.jar")
@@ -62,9 +66,9 @@ class ScalaEEProject(info: ProjectInfo) extends ParentProject(info) with Unpubli
   // scalaee-core-it subproject
   // ===================================================================================================================
 
-  val coreITProject = project("core-it", "scalaee-core-it", new CoreITProject(_), coreProject)
+  val dummyAppProject = project("dummyapp", "scalaee-dummyapp", new DummyAppProject(_), coreProject)
 
-  class CoreITProject(info: ProjectInfo) extends DefaultWebProject(info) with UnpublishedProject with WebProfileJEEProject {
+  class DummyAppProject(info: ProjectInfo) extends DefaultWebProject(info) with UnpublishedProject with WebProfileJEEProject {
 
     override def libraryDependencies = Set(slf4jLog4j("compile"), javaeeWebApi)
 

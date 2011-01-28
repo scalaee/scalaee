@@ -5,17 +5,13 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  */
-package org.scalaeeit
+package org.scalaee
+package dummyapp
 package model
 
-class User(
-  var email: Email = null,
-  var password: String = null)
+import java.io.Serializable
 
-trait NamedUser {
-  this: User =>
-
-  var firstName: String = _
-
-  var lastName: String = _
-}
+class User(var email: EMail = null,
+           var password: String = "",
+           var firstName: String = "",
+           var lastName: String = "") extends Serializable
