@@ -6,7 +6,8 @@
  * http://www.eclipse.org/legal/epl-v10.html
  */
 package org.scalaee
-package util
+package el
+package test
 
 import javax.el.ELContext
 import org.mockito.Matchers._
