@@ -6,7 +6,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  */
 package org.scalaee
-package util
+package el
 
 import com.weiglewilczek.slf4s.Logging
 import java.beans.FeatureDescriptor
@@ -54,7 +54,7 @@ private class ScalaELResolverWebListener extends ServletContextListener with Log
  * Scala style does (luckily) not obey to JavaBean conventions: Accessors aren't prefixed with <i>get</i> and <i>set</i>.
  * Therefore it is necessary to adapt to JavaBean style by means of this special resolver.
  */
-private[util] class ScalaELResolver extends ELResolver with Logging {
+private[el] class ScalaELResolver extends ELResolver with Logging {
 
   private def applyToProperty[A >: Null](
       context: ELContext,
