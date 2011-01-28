@@ -22,6 +22,7 @@ class ScalaEEProject(info: ProjectInfo) extends ParentProject(info) with Unpubli
   def scalaz = "com.googlecode.scalaz" %% "scalaz-core" % "5.0" withSources
   def slf4s = "com.weiglewilczek.slf4s" %% "slf4s" % "1.0.2" withSources
   def seamSolder = "org.jboss.seam.solder" % "seam-solder" % "3.0.0.Beta2" withSources
+  def logManager = "org.jboss.logmanager" % "jboss-logmanager" % "1.2.0.CR4" withSources
 
   // Dependencies (provided)
   def javaeeWebApi = "javax" % "javaee-web-api" % "6.0" % "provided"
@@ -55,7 +56,7 @@ class ScalaEEProject(info: ProjectInfo) extends ParentProject(info) with Unpubli
 
     override def libraryDependencies =
       Set(/*scalaz, */
-        slf4s, javaeeWebApi, seamSolder, specs, mockito, glassfishELImpl, slf4jLog4j("test"))
+        slf4s, javaeeWebApi, seamSolder, logManager, specs, mockito, glassfishELImpl, slf4jLog4j("compile"))
     override def defaultExcludes = super.defaultExcludes || "*-sources.jar"
 
     override def packageSrcJar = defaultJarPath("-sources.jar")
@@ -73,7 +74,9 @@ class ScalaEEProject(info: ProjectInfo) extends ParentProject(info) with Unpubli
 
   class DummyAppProject(info: ProjectInfo) extends DefaultWebProject(info) with UnpublishedProject with WebProfileJEEProject {
 
-    override def libraryDependencies = Set(slf4jLog4j("compile"), javaeeWebApi)
+    override def libraryDependencies = Set(
+      //slf4jLog4j("compile"),
+      javaeeWebApi)
 
   }
 }

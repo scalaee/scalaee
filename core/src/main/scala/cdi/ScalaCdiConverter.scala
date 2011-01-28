@@ -8,20 +8,17 @@
 package org.scalaee
 package cdi
 
-import com.weiglewilczek.slf4s.Logger
 import javax.enterprise.inject.spi._
 import javax.enterprise.event.Observes
-
+import java.util.logging.{Level, Logger}
 
 class ScalaCdiConverter extends Extension {
 
-  private val logger = Logger(this.getClass)
+  //private val logger = Logger.getLogger(getClass.getName)
 
-  logger.debug("#########################################")
-  logger.debug("#########################################")
-  logger.debug("#########################################")
-  logger.debug("#########################################")
-  logger.debug("#########################################")
+  private def log(msg: String) {
+    //logger.log(Level.WARNING, msg)
+  }
 
   def beforeBeanDiscovery(@Observes bbd: BeforeBeanDiscovery) {
     //logger.info("X#X#X#X#X#X#X#X#X BeforeBeanDiscovery")
@@ -29,14 +26,26 @@ class ScalaCdiConverter extends Extension {
 
   def processAnnotatedType[A](@Observes pat: ProcessAnnotatedType[A]) {
     //logger.info("X#X#X#X#X#X#X#X#X ProcessAnnotatedType:" + pat.getAnnotatedType)
-  }
 
-  def processInjectionTarget[A](@Observes pit: ProcessInjectionTarget[A]) {
-    //logger.info("X#X#X#X#X#X#X#X#X ProcessInjectionTarget")
+    if (pat.getAnnotatedType.getJavaClass.getName.endsWith("BeanWithFinalPublicMethod")) {
+//      log("##########")
+//      log("##########")
+//      log("##########")
+//      log("##########")
+//      log("##########")
+//      log("##########")
+    }
+
+
+
   }
 
   def processBean[A](@Observes pb: ProcessBean[A]) {
     //logger.info("X#X#X#X#X#X#X#X#X ProcessBean:" + pb.getBean)
+  }
+
+  def processInjectionTarget[A](@Observes pit: ProcessInjectionTarget[A]) {
+    //logger.info("X#X#X#X#X#X#X#X#X ProcessInjectionTarget:" + pit.getAnnotatedType)
   }
 
   def afterBeanDiscovery(@Observes abd: AfterBeanDiscovery, beanManager: BeanManager) {

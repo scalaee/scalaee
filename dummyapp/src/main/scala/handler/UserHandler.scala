@@ -16,22 +16,38 @@ import com.weiglewilczek.slf4s.Logger
 import javax.enterprise.context.SessionScoped
 
 
-trait MyLogging {
-  //private val loggerXXX = Logger(this.getClass)
+
+// ---------------------------------------------------------
+
+trait BeanWithMethod {
+  def method(): String
 }
+
+@SessionScoped
+@serializable
+class BeanWithFinalPublicMethod extends BeanWithMethod {
+  final def method() = "bla"
+}
+
+@SessionScoped
+@serializable
+class BeanWithPublicMethod extends BeanWithMethod {
+  def method() = "bla"
+}
+
+// ---------------------------------------------------------
 
 
 @Named
 @SessionScoped
 @serializable
-class UserHandler extends MyLogging {
+class UserHandler {
 
-  private val logger = Logger(this.getClass)
+  //private val logger = Logger.getLogger(getClass.getName)
 
   var user = new User
 
   def save: String = {
-    logger.debug("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
     //logger.debug("""Trying to save user with email "%s".""" format user.email)
     "/index"
   }
