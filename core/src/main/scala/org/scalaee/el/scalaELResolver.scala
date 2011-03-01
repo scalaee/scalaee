@@ -10,6 +10,7 @@ package el
 
 import com.weiglewilczek.slf4s.Logging
 import java.beans.FeatureDescriptor
+import java.util.{ Iterator => JIterator }
 import java.lang.{ Class, String }
 import java.lang.reflect.Method
 import javax.el._
@@ -96,7 +97,7 @@ private[el] class ScalaELResolver extends ELResolver with Logging {
   def getCommonPropertyType(context: ELContext, base: AnyRef): Class[_] =
     throw new UnsupportedOperationException("This method is hopefully irrelevant for the ScalaELResolver.")
 
-  def getFeatureDescriptors(context: ELContext, base: AnyRef): Iterator[FeatureDescriptor] =
+  def getFeatureDescriptors(context: ELContext, base: AnyRef): JIterator[FeatureDescriptor] =
     throw new UnsupportedOperationException("This method is hopefully irrelevant for the ScalaELResolver.")
 
   def isReadOnly(context: ELContext, base: AnyRef, property: AnyRef): Boolean = {
