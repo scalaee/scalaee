@@ -12,7 +12,6 @@ import com.weiglewilczek.slf4s.Logging
 import java.beans.FeatureDescriptor
 import java.lang.{ Class, String }
 import java.lang.reflect.Method
-import java.util.{ ArrayList => JArrayList, Iterator => JIterator }
 import javax.el._
 import javax.faces.FactoryFinder._
 import javax.faces.application.ApplicationFactory
@@ -28,16 +27,11 @@ private class ScalaELResolverWebListener extends ServletContextListener with Log
 
   /**
    * Adds a {@link ScalaELResolver} to the JSF application.
-   */ 
+   */
   def contextInitialized(event: ServletContextEvent) {
     try {
       val applicationFactory = getFactory(APPLICATION_FACTORY).asInstanceOf[ApplicationFactory]
-      val resolver = applicationFactory.getApplication.getELResolver.asInstanceOf[CompositeELResolver]
-      val resolversField = classOf[CompositeELResolver] getDeclaredField "elResolvers"
-      resolversField.setAccessible(true)
-      val resolversValue = (resolversField get resolver).asInstanceOf[JArrayList[ELResolver]]
-      resolversValue.add(0, new ScalaELResolver)
-      resolversField.set(resolver, resolversValue)
+      applicationFactory.getApplication.addELResolver(new ScalaELResolver)
       logger.info("Added ScalaELResolver to JSF application.")
     } catch {
       case e => logger.error("Could not add ScalaELResolver to JSF application!", e)
@@ -102,7 +96,7 @@ private[el] class ScalaELResolver extends ELResolver with Logging {
   def getCommonPropertyType(context: ELContext, base: AnyRef): Class[_] =
     throw new UnsupportedOperationException("This method is hopefully irrelevant for the ScalaELResolver.")
 
-  def getFeatureDescriptors(context: ELContext, base: AnyRef): JIterator[FeatureDescriptor] =
+  def getFeatureDescriptors(context: ELContext, base: AnyRef): Iterator[FeatureDescriptor] =
     throw new UnsupportedOperationException("This method is hopefully irrelevant for the ScalaELResolver.")
 
   def isReadOnly(context: ELContext, base: AnyRef, property: AnyRef): Boolean = {
